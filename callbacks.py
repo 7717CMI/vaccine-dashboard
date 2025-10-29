@@ -47,35 +47,49 @@ def register_all_callbacks(app, get_data_func):
          Input("epi-country-filter", "value")]
     )
     def update_epidemiology(years, diseases, regions, incomes, countries):
-        df = get_data_func()  # Get data on demand
-        filters = {"year": years, "disease": diseases, "region": regions, "income_type": incomes, "country": countries}
-        filtered = filter_dataframe(df, filters)
+        try:
+            df = get_data_func()  # Get data on demand
+            
+            # Check if data is empty
+            if df.empty:
+                return "No data", "No data", "No data", "No data", {}, {}, {}
+            
+            filters = {"year": years, "disease": diseases, "region": regions, "income_type": incomes, "country": countries}
+            filtered = filter_dataframe(df, filters)
+            
+            # Check if filtered data is empty
+            if filtered.empty:
+                return "0", "0", "N/A", "0", {}, {}, {}
+            
+            total_prev = format_number(filtered["prevalence"].sum())
+            total_inc = format_number(filtered["incidence"].sum())
+            top_disease = filtered.groupby("disease")["prevalence"].sum().idxmax() if len(filtered) > 0 else "N/A"
+            avg_inc_rate = format_number(filtered["incidence"].mean())
+            
+            # Chart 1: Prevalence by Disease
+            prev_by_disease = filtered.groupby("disease")["prevalence"].sum().reset_index()
+            fig1 = px.bar(prev_by_disease, x="disease", y="prevalence", title="Prevalence by Disease",
+                          color="disease")
+            fig1.update_layout(showlegend=False, plot_bgcolor="white", height=350)
+            
+            # Chart 2: Incidence by Region
+            inc_by_region = filtered.groupby("region")["incidence"].sum().reset_index()
+            fig2 = go.Figure(data=[go.Pie(labels=inc_by_region["region"], values=inc_by_region["incidence"],
+                                           hole=0.4, pull=[0.05]*len(inc_by_region))])
+            fig2.update_layout(title="Incidence Distribution by Region", height=350)
+            
+            # Chart 3: Trend over years
+            trend = filtered.groupby("year")[["prevalence", "incidence"]].sum().reset_index()
+            fig3 = go.Figure()
+            fig3.add_trace(go.Scatter(x=trend["year"], y=trend["prevalence"], name="Prevalence", mode='lines+markers'))
+            fig3.add_trace(go.Scatter(x=trend["year"], y=trend["incidence"], name="Incidence", mode='lines+markers'))
+            fig3.update_layout(title="Prevalence & Incidence Trend", plot_bgcolor="white", height=350)
+            
+            return total_prev, total_inc, top_disease, avg_inc_rate, fig1, fig2, fig3
         
-        total_prev = format_number(filtered["prevalence"].sum())
-        total_inc = format_number(filtered["incidence"].sum())
-        top_disease = filtered.groupby("disease")["prevalence"].sum().idxmax() if len(filtered) > 0 else "N/A"
-        avg_inc_rate = format_number(filtered["incidence"].mean())
-        
-        # Chart 1: Prevalence by Disease
-        prev_by_disease = filtered.groupby("disease")["prevalence"].sum().reset_index()
-        fig1 = px.bar(prev_by_disease, x="disease", y="prevalence", title="Prevalence by Disease",
-                      color="disease")
-        fig1.update_layout(showlegend=False, plot_bgcolor="white", height=350)
-        
-        # Chart 2: Incidence by Region
-        inc_by_region = filtered.groupby("region")["incidence"].sum().reset_index()
-        fig2 = go.Figure(data=[go.Pie(labels=inc_by_region["region"], values=inc_by_region["incidence"],
-                                       hole=0.4, pull=[0.05]*len(inc_by_region))])
-        fig2.update_layout(title="Incidence Distribution by Region", height=350)
-        
-        # Chart 3: Trend over years
-        trend = filtered.groupby("year")[["prevalence", "incidence"]].sum().reset_index()
-        fig3 = go.Figure()
-        fig3.add_trace(go.Scatter(x=trend["year"], y=trend["prevalence"], name="Prevalence", mode='lines+markers'))
-        fig3.add_trace(go.Scatter(x=trend["year"], y=trend["incidence"], name="Incidence", mode='lines+markers'))
-        fig3.update_layout(title="Prevalence & Incidence Trend", plot_bgcolor="white", height=350)
-        
-        return total_prev, total_inc, top_disease, avg_inc_rate, fig1, fig2, fig3
+        except Exception as e:
+            print(f"[ERROR] Epidemiology callback failed: {e}")
+            return "Error", "Error", "Error", "Error", {}, {}, {}
     
     # 2. VACCINATION RATE CALLBACKS
     @app.callback(

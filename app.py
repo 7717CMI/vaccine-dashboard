@@ -6,6 +6,33 @@ import plotly.graph_objects as go
 import pandas as pd
 import numpy as np
 import random
+from threading import Lock
+
+# Thread lock for safe data loading
+_data_lock = Lock()
+_df_cache = None
+
+def get_data():
+    """Thread-safe lazy load data - generate only once when first accessed"""
+    global _df_cache
+    
+    # Fast path: if data exists, return immediately
+    if _df_cache is not None:
+        return _df_cache
+    
+    # Slow path: acquire lock and generate data
+    with _data_lock:
+        # Double-check: another thread might have generated it while we waited
+        if _df_cache is None:
+            print("[INFO] Generating vaccine market data...")
+            try:
+                _df_cache = generate_comprehensive_data()
+                print(f"[OK] Generated {len(_df_cache):,} records across {_df_cache['year'].nunique()} years")
+            except Exception as e:
+                print(f"[ERROR] Failed to generate data: {e}")
+                # Return empty dataframe as fallback
+                _df_cache = pd.DataFrame()
+        return _df_cache
 
 # Initialize Dash app with modern theme
 app = dash.Dash(
@@ -171,18 +198,6 @@ def generate_comprehensive_data():
     
     df = pd.DataFrame(data)
     return df
-
-# Lazy data generation - only generate on first access
-_df_cache = None
-
-def get_data():
-    """Lazy load data - generate only once when first accessed"""
-    global _df_cache
-    if _df_cache is None:
-        print("[INFO] Generating vaccine market data...")
-        _df_cache = generate_comprehensive_data()
-        print(f"[OK] Generated {len(_df_cache):,} records")
-    return _df_cache
 
 # Quick startup - data will be generated on first page load
 print("=" * 60)
