@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vaccine-analytics-dashboard
+    ports:
+      - "8050:8050"
+    environment:
+      - PORT=8050
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8050"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.example.description=Global Vaccine Market Analytics Dashboard"
+      - "com.example.version=1.0"
+

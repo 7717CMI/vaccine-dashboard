@@ -1,0 +1,521 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ==================== GLOBAL STYLES ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    color: #1e293b;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==================== HEADER STYLES ==================== */
+.main-header {
+    background: linear-gradient(135deg, #1a365d 0%, #2c5282 50%, #2b6cb0 100%);
+    color: white;
+    padding: 56px 32px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(26, 54, 93, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255,255,255,0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.main-title {
+    font-size: 38px;
+    font-weight: 800;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.03em;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.main-subtitle {
+    font-size: 18px;
+    margin: 0;
+    font-weight: 500;
+    color: #e2e8f0;
+    opacity: 0.95;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.01em;
+}
+
+/* ==================== DEMO NOTICE ==================== */
+.demo-notice {
+    background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25);
+    letter-spacing: 0.03em;
+    border-bottom: 3px solid rgba(0,0,0,0.1);
+}
+
+/* ==================== LANDING PAGE ==================== */
+.landing-container {
+    max-width: 1400px;
+    margin: 48px auto;
+    padding: 0 32px;
+}
+
+.landing-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0f172a;
+    text-align: center;
+    margin-bottom: 48px;
+    letter-spacing: -0.01em;
+}
+
+/* ==================== ANALYSIS BUTTON CARDS ==================== */
+.analysis-button {
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.analysis-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #2b6cb0 0%, #3182ce 100%);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+    border-radius: 16px 16px 0 0;
+}
+
+.analysis-button:hover::before {
+    transform: scaleX(1);
+}
+
+.analysis-button:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 16px 48px rgba(43, 108, 176, 0.2);
+    border-color: #3182ce;
+    background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+}
+
+.icon-placeholder {
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.analysis-button:hover .icon-placeholder {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.analysis-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a365d;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+    transition: color 0.3s ease;
+}
+
+.analysis-button:hover .analysis-name {
+    color: #2b6cb0;
+}
+
+.analysis-desc {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+    max-width: 90%;
+}
+
+/* ==================== FILTERS CONTAINER ==================== */
+.filters-container {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    margin: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
+}
+
+.filters-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 24px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.filters-title::before {
+    content: '';
+    width: 4px;
+    height: 24px;
+    background: linear-gradient(180deg, #004AAD 0%, #0070F3 100%);
+    border-radius: 2px;
+}
+
+.filter-label {
+    font-weight: 600;
+    color: #475569;
+    margin-bottom: 8px;
+    font-size: 13px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ==================== DROPDOWN STYLING ==================== */
+.Select-control {
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    transition: all 0.2s ease !important;
+    min-height: 44px !important;
+}
+
+.Select-control:hover {
+    border-color: #cbd5e1 !important;
+}
+
+.is-focused .Select-control {
+    border-color: #0070F3 !important;
+    box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.1) !important;
+}
+
+.Select-placeholder {
+    color: #94a3b8 !important;
+    font-size: 14px !important;
+}
+
+.Select-value-label {
+    color: #1e293b !important;
+    font-weight: 500 !important;
+}
+
+/* ==================== KPI CARDS ==================== */
+.kpi-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    height: 100%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #2b6cb0 0%, #3182ce 100%);
+}
+
+.kpi-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(43, 108, 176, 0.15);
+    border-color: #3182ce;
+}
+
+.kpi-value {
+    font-size: 36px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 16px 0;
+    letter-spacing: -0.03em;
+}
+
+.kpi-label {
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+}
+
+/* ==================== CHART CONTAINER ==================== */
+.chart-container {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    margin-bottom: 24px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.chart-container:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.chart-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 20px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-title::before {
+    content: '';
+    width: 3px;
+    height: 18px;
+    background: linear-gradient(180deg, #004AAD 0%, #0070F3 100%);
+    border-radius: 2px;
+}
+
+/* ==================== BUTTONS ==================== */
+.back-btn {
+    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
+    background: linear-gradient(90deg, #4f46e5 0%, #4338ca 100%);
+}
+
+.reset-btn {
+    background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
+    background: linear-gradient(90deg, #dc2626 0%, #b91c1c 100%);
+}
+
+/* ==================== FOOTER ==================== */
+.footer {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    color: #cbd5e1;
+    text-align: center;
+    padding: 32px;
+    margin-top: 64px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+}
+
+.footer strong {
+    color: #f1f5f9;
+    font-weight: 600;
+}
+
+/* ==================== LOADING SPINNER ==================== */
+._dash-loading {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(4px);
+}
+
+._dash-loading-callback {
+    border: 4px solid #e2e8f0;
+    border-top-color: #0070F3;
+    width: 60px;
+    height: 60px;
+}
+
+/* ==================== SCROLLBAR ==================== */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #004AAD 0%, #0070F3 100%);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #003a8d 0%, #0060d3 100%);
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 28px;
+    }
+    
+    .main-subtitle {
+        font-size: 16px;
+    }
+    
+    .landing-container {
+        padding: 0 16px;
+    }
+    
+    .analysis-button {
+        height: 180px;
+        padding: 24px 16px;
+    }
+    
+    .filters-container {
+        padding: 20px;
+        margin: 16px;
+    }
+    
+    .kpi-value {
+        font-size: 24px;
+    }
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.landing-container > * {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.kpi-card, .chart-container, .filters-container {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* ==================== ACCESSIBILITY ==================== */
+.analysis-button:focus,
+.back-btn:focus,
+.reset-btn:focus {
+    outline: 3px solid #0070F3;
+    outline-offset: 2px;
+}
+
+/* ==================== DASH SPECIFIC OVERRIDES ==================== */
+#_dash-app-content {
+    background: transparent;
+}
+
+.dash-table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+}
+
+.dash-table-container .dash-spreadsheet-container {
+    border-radius: 12px;
+}
+
+.dash-table-container .dash-header {
+    background: linear-gradient(90deg, #004AAD 0%, #0070F3 100%) !important;
+    color: white !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 12px !important;
+    letter-spacing: 0.05em !important;
+}
+
+.dash-table-container .dash-cell {
+    font-family: 'Inter', sans-serif !important;
+    color: #1e293b !important;
+    font-size: 14px !important;
+}
+
+/* ==================== GRAPH STYLING ==================== */
+.js-plotly-plot .plotly .modebar {
+    top: 10px !important;
+    right: 10px !important;
+}
+
+.js-plotly-plot .plotly .modebar-btn {
+    border-radius: 6px !important;
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+.gradient-text {
+    background: linear-gradient(135deg, #004AAD 0%, #0070F3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-soft {
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.shadow-medium {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+}
+
+.shadow-hard {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+}
+

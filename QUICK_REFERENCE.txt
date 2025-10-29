@@ -1,0 +1,45 @@
+# 🚀 QUICK DEPLOYMENT REFERENCE
+
+## Git Commands
+```bash
+git add .
+git commit -m "Deploy: Production ready"
+git push origin main
+```
+
+## Render Configuration
+```
+Name: vaccine-analytics-dashboard
+Environment: Python 3
+Build: pip install -r requirements.txt
+Start: gunicorn app:server --bind 0.0.0.0:$PORT --workers 2 --threads 4 --timeout 120
+Instance: Free (test) or Starter (prod)
+```
+
+## URLs
+- **GitHub**: https://github.com/7717CMI/vaccine-dashboard
+- **Render**: https://dashboard.render.com/
+- **Live URL**: https://your-service-name.onrender.com
+
+## Key Files
+- ✅ app.py (server = app.server)
+- ✅ pages.py (8 layouts)
+- ✅ callbacks.py (interactivity)
+- ✅ requirements.txt (dependencies)
+- ✅ Procfile (web server)
+- ✅ runtime.txt (Python 3.11.6)
+- ✅ .gitignore (exclusions)
+- ✅ README.md (documentation)
+
+## Verification
+```bash
+python verify_deployment.py
+```
+
+## Support
+- Render Docs: https://render.com/docs
+- Dash Docs: https://dash.plotly.com/
+
+---
+**Status**: ✅ PRODUCTION READY
+
