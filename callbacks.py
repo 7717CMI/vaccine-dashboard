@@ -23,7 +23,13 @@ def filter_dataframe(df, filters):
             filtered = filtered[filtered[field].isin(values)]
     return filtered
 
-def register_all_callbacks(app, df):
+def register_all_callbacks(app, get_data_func):
+    """
+    Register all callbacks for the dashboard.
+    Args:
+        app: Dash app instance
+        get_data_func: Function that returns the dataframe (lazy loading)
+    """
     
     # 1. EPIDEMIOLOGY CALLBACKS
     @app.callback(
@@ -41,6 +47,7 @@ def register_all_callbacks(app, df):
          Input("epi-country-filter", "value")]
     )
     def update_epidemiology(years, diseases, regions, incomes, countries):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "disease": diseases, "region": regions, "income_type": incomes, "country": countries}
         filtered = filter_dataframe(df, filters)
         
@@ -86,6 +93,7 @@ def register_all_callbacks(app, df):
          Input("vax-country-filter", "value")]
     )
     def update_vaccination_rate(years, diseases, regions, incomes, countries):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "disease": diseases, "region": regions, "income_type": incomes, "country": countries}
         filtered = filter_dataframe(df, filters)
         
@@ -131,6 +139,7 @@ def register_all_callbacks(app, df):
          Input("price-price_class-filter", "value")]
     )
     def update_pricing(years, markets, regions, incomes, countries, brands, price_classes):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "market": markets, "region": regions, "income_type": incomes, 
                    "country": countries, "brand": brands, "price_class": price_classes}
         filtered = filter_dataframe(df, filters)
@@ -176,6 +185,7 @@ def register_all_callbacks(app, df):
          Input("cagr-gender-filter", "value")]
     )
     def update_cagr(years, markets, regions, incomes, countries, segments, genders):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "market": markets, "region": regions, "income_type": incomes, 
                    "country": countries, "segment": segments, "gender": genders}
         filtered = filter_dataframe(df, filters)
@@ -221,6 +231,7 @@ def register_all_callbacks(app, df):
          Input("msa-gender-filter", "value")]
     )
     def update_msa(years, markets, regions, incomes, countries, segments, genders):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "market": markets, "region": regions, "income_type": incomes, 
                    "country": countries, "segment": segments, "gender": genders}
         filtered = filter_dataframe(df, filters)
@@ -266,6 +277,7 @@ def register_all_callbacks(app, df):
          Input("proc-brand-filter", "value")]
     )
     def update_procurement(years, markets, regions, incomes, countries, pub_priv, brands):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "market": markets, "region": regions, "income_type": incomes, 
                    "country": countries, "public_private": pub_priv, "brand": brands}
         filtered = filter_dataframe(df, filters)
@@ -312,6 +324,7 @@ def register_all_callbacks(app, df):
          Input("brand-demo-brand-filter", "value")]
     )
     def update_brand_demographic(years, markets, regions, incomes, countries, ages, genders, brands):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "market": markets, "region": regions, "income_type": incomes, 
                    "country": countries, "age_group": ages, "gender": genders, "brand": brands}
         filtered = filter_dataframe(df, filters)
@@ -360,6 +373,7 @@ def register_all_callbacks(app, df):
          Input("fdf-roa-filter", "value")]
     )
     def update_fdf(years, markets, regions, incomes, countries, brands, fdfs, roas):
+        df = get_data_func()  # Get data on demand
         filters = {"year": years, "market": markets, "region": regions, "income_type": incomes, 
                    "country": countries, "brand": brands, "fdf": fdfs, "roa": roas}
         filtered = filter_dataframe(df, filters)

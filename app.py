@@ -172,10 +172,23 @@ def generate_comprehensive_data():
     df = pd.DataFrame(data)
     return df
 
-# Generate data
-print("Generating comprehensive vaccine market data...")
-df = generate_comprehensive_data()
-print(f"[OK] Generated {len(df)} records")
+# Lazy data generation - only generate on first access
+_df_cache = None
+
+def get_data():
+    """Lazy load data - generate only once when first accessed"""
+    global _df_cache
+    if _df_cache is None:
+        print("[INFO] Generating vaccine market data...")
+        _df_cache = generate_comprehensive_data()
+        print(f"[OK] Generated {len(_df_cache):,} records")
+    return _df_cache
+
+# Quick startup - data will be generated on first page load
+print("=" * 60)
+print("[START] Dashboard Initializing - Ready for HTTP requests")
+print("[INFO] Data will be generated on first page access")
+print("=" * 60)
 
 
 # Main Layout with URL routing
@@ -333,6 +346,7 @@ def landing_page():
 @app.callback(Output('page-content', 'children'),
               [Input('url', 'pathname')])
 def display_page(pathname):
+    df = get_data()  # Lazy load data on first access
     if pathname == '/epidemiology':
         from pages import epidemiology_page
         return epidemiology_page(df)
@@ -392,19 +406,13 @@ def navigate_to_page(*args):
 
 # Import and register all callbacks
 from callbacks import register_all_callbacks
-register_all_callbacks(app, df)
+register_all_callbacks(app, get_data)  # Pass the getter function, not the data itself
 
 # Run the app
 if __name__ == "__main__":
     print("=" * 60)
     print("[START] Global Vaccine Market Analytics Dashboard")
-    print("=" * 60)
-    print(f"[DATA] Total Records: {len(df):,}")
-    print(f"[DATA] Years Covered: 2021-2035")
-    print(f"[DATA] Regions: {df['region'].nunique()}")
-    print(f"[DATA] Diseases: {df['disease'].nunique()}")
-    print(f"[DATA] Countries: {df['country'].nunique()}")
-    print("=" * 60)
-    print("[OK] Dashboard ready at: http://localhost:8050")
+    print("[INFO] Server starting on http://0.0.0.0:8050")
+    print("[INFO] Data will be generated on first page access")
     print("=" * 60)
     app.run_server(debug=True, host="0.0.0.0", port=8050)
